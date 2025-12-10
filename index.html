@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>노후 머니 계산기 💰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8235037240492806"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 시작 화면 -->
+        <div class="screen active" id="intro-screen">
+            <div class="intro-content">
+                <div class="intro-illustration">
+                    <div class="coin coin-1">💰</div>
+                    <div class="coin coin-2">🪙</div>
+                    <div class="coin coin-3">💵</div>
+                    <div class="main-character">🧘</div>
+                    <div class="cloud cloud-1">☁️</div>
+                    <div class="cloud cloud-2">☁️</div>
+                </div>
+                <h1 class="intro-title">
+                    <span class="highlight">노후</span>에<br>
+                    얼마가 필요할까?
+                </h1>
+                <p class="intro-subtitle">
+                    20가지 질문에 답하고<br>
+                    나만의 노후 자금을 계산해보세요
+                </p>
+                <div class="time-estimate">
+                    <span class="time-icon">⏱️</span>
+                    <span>약 3분 소요</span>
+                </div>
+                <button class="btn-start" onclick="startSurvey()">
+                    시작하기
+                    <span class="btn-arrow">→</span>
+                </button>
+                
+                <!-- 시작 화면 광고 -->
+                <div class="ad-container ad-intro">
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-8235037240492806"
+                        data-ad-slot="auto"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- 설문 화면 -->
+        <div class="screen" id="survey-screen">
+            <div class="survey-header">
+                <button class="btn-back" onclick="prevQuestion()">
+                    <span>←</span>
+                </button>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="progress-text">1/20</span>
+                </div>
+            </div>
+
+            <div class="question-container" id="question-container">
+                <!-- 질문들이 여기에 동적으로 렌더링됩니다 -->
+            </div>
+
+            <div class="survey-footer">
+                <button class="btn-next" id="btn-next" onclick="nextQuestion()" disabled>
+                    다음
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 로딩 화면 -->
+        <div class="screen" id="loading-screen">
+            <div class="loading-content">
+                <div class="loading-illustration">
+                    <div class="calculator">🧮</div>
+                    <div class="sparkle sparkle-1">✨</div>
+                    <div class="sparkle sparkle-2">✨</div>
+                    <div class="sparkle sparkle-3">✨</div>
+                </div>
+                <h2 class="loading-title">열심히 계산 중...</h2>
+                <p class="loading-subtitle" id="loading-text">당신의 노후를 분석하고 있어요</p>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 결과 화면 -->
+        <div class="screen" id="result-screen">
+            <div class="result-content">
+                <div class="result-header">
+                    <div class="result-badge" id="result-badge">
+                        <!-- 동적으로 배지 표시 -->
+                    </div>
+                    <h2 class="result-nickname" id="result-nickname">
+                        <!-- 별칭이 여기에 표시됩니다 -->
+                    </h2>
+                    <p class="result-description" id="result-description">
+                        <!-- 설명이 여기에 표시됩니다 -->
+                    </p>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">노후에 필요한 총 금액</div>
+                    <div class="result-amount" id="result-amount">
+                        <!-- 금액이 여기에 표시됩니다 -->
+                    </div>
+                    <div class="result-period" id="result-period">
+                        <!-- 기간이 여기에 표시됩니다 -->
+                    </div>
+                </div>
+
+                <!-- 결과 카드 아래 광고 -->
+                <div class="ad-container ad-result">
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-8235037240492806"
+                        data-ad-slot="auto"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <div class="result-breakdown">
+                    <h3 class="breakdown-title">💡 항목별 예상 비용</h3>
+                    <div class="breakdown-list" id="breakdown-list">
+                        <!-- 항목별 비용이 여기에 표시됩니다 -->
+                    </div>
+                </div>
+
+                <div class="result-tips">
+                    <h3 class="tips-title">📝 맞춤 조언</h3>
+                    <div class="tips-list" id="tips-list">
+                        <!-- 팁들이 여기에 표시됩니다 -->
+                    </div>
+                </div>
+
+                <!-- 하단 광고 -->
+                <div class="ad-container ad-bottom">
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-8235037240492806"
+                        data-ad-slot="auto"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn-share" onclick="shareResult()">
+                        <span>📤</span> 결과 공유하기
+                    </button>
+                    <button class="btn-retry" onclick="retryQuiz()">
+                        <span>🔄</span> 다시 해보기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
